@@ -4,7 +4,7 @@ export enum TodoStatus {
     Completed = "Completed"
 }
 
-export interface Todo {
+export interface TodoTask {
     id: number;
     title: string;
     description: string;

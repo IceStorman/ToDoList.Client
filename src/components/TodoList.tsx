@@ -1,22 +1,18 @@
 import { useEffect, useState } from "react";
-import { getTodos, updateTodoStatus, addTodo } from "../mock/api";
-import { Todo, TodoStatus } from "../types/todoTypes.ts";
+import {getTodos, addTodo} from "../mock/api";
+import {TodoTask} from "../types/todoTypes.ts";
+import TodoItem from "./TodoItem.tsx";
 
 export default function TodoList() {
-    const [todos, setTodos] = useState<Todo[]>([]);
+    const [todos, setTodos] = useState<TodoTask[]>([]);
     const [newTodo, setNewTodo] = useState<string>("");
 
     useEffect(() => {
         getTodos().then(setTodos);
     }, []);
 
-    const handleStatusChange = async (id: number, newStatus: TodoStatus) => {
-        const updatedTodo = await updateTodoStatus(id, newStatus);
-        if (updatedTodo) {
-            setTodos((prev) =>
-                prev.map((t) => (t.id === updatedTodo.id ? updatedTodo : t))
-            );
-        }
+    const handleTaskClick = (id: number) => {
+        console.log(id);
     };
 
     const handleAddTodo = async () => {
@@ -27,32 +23,24 @@ export default function TodoList() {
     };
 
     return (
-        <div>
-            <h2>Todo List</h2>
-            <ul>
-                {todos.map((todo) => (
-                    <li key={todo.id}>
-                        {todo.title} -
-                        <select
-                            value={todo.status}
-                            onChange={(e) => handleStatusChange(todo.id, e.target.value as TodoStatus)}
-                        >
-                            {Object.values(TodoStatus).map((status) => (
-                                <option key={status} value={status}>
-                                    {status}
-                                </option>
-                            ))}
-                        </select>
-                    </li>
-                ))}
-            </ul>
+        <div className="App">
+            <button onClick={handleAddTodo}>Add</button>
             <input
                 type="text"
                 value={newTodo}
                 onChange={(e) => setNewTodo(e.target.value)}
                 placeholder="New task..."
             />
-            <button onClick={handleAddTodo}>Add</button>
+
+            <ul>
+                {todos.map((todoTask) => (
+                    <TodoItem
+                        key={todoTask.id}
+                        task={todoTask}
+                        defaultOnClick={() => handleTaskClick(todoTask.id)}
+                    />
+                ))}
+            </ul>
         </div>
     );
 }
