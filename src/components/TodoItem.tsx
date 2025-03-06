@@ -1,4 +1,5 @@
 import {TodoTask} from "../types/todoTypes";
+import "../styles/TodoItem.scss"
 
 interface TodoItemProps {
     task: TodoTask;
@@ -7,9 +8,9 @@ interface TodoItemProps {
 
 export default function TodoItem({ task, defaultOnClick }: TodoItemProps) {
     return (
-        <li onClick={defaultOnClick} style={{ cursor: "pointer" }}>
-            <span style={{color: "black"}}>{task.title}</span>
+        <div className="todoItem" onClick={defaultOnClick} style={{ cursor: "pointer" }}>
+            <span style={{color: "gray"}}>{task.title}</span>
             <span style={{color: "green", fontWeight: "bold", marginLeft: "8px"}}>{task.status}</span>
-        </li>
+        </div>
     );
 }

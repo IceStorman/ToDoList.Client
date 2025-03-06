@@ -1,4 +1,4 @@
-.list{
+.app{
     background: white;
     margin: 0 auto;
     justify-content: flex-start;
@@ -9,11 +9,15 @@
 }
 
 .title{
-    margin: 0 auto;
+    margin: 3rem auto 1rem;
 }
 
 hr{
     height: 0.5px;
-    width: 100%;
+    width: 80%;
     background-color: gray;
+}
+
+.listContainer{
+    margin: 0 auto;
 }

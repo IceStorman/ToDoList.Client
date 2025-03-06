@@ -23,7 +23,7 @@ export default function CreateTodoItemInterface({setTodos}: {setTodos: Dispatch<
                 onChange={(e) => setNewTodo(e.target.value)}
                 placeholder="New task..."
             />
-            <button className="createTodoItemButton" onClick={handleAddTodo}>Add</button>
+            <button className="createTodoItemButton" onClick={handleAddTodo}>+ Add New Task</button>
         </div>
     );
 }
