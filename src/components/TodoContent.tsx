@@ -6,10 +6,6 @@ import "../styles/TodoContent.scss"
 
 export default function TodoContent({todos, setTodos}:
     {todos: TodoTask[], setTodos: Dispatch<SetStateAction<TodoTask[]>>}){
-    const handleTaskClick = (id: number) => {
-        console.log(id);
-    };
-
     useEffect(() => {
         getTodos().then(setTodos);
     }, [setTodos]);
@@ -20,7 +16,7 @@ export default function TodoContent({todos, setTodos}:
                 <TodoItem
                     key={todoTask.id}
                     task={todoTask}
-                    defaultOnClick={() => handleTaskClick(todoTask.id)}
+                    setTodos={setTodos}
                 />
             ))}
         </div>

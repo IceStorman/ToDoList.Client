@@ -1,9 +1,9 @@
 import { TodoTask, TodoStatus } from "../types/todoTypes";
 
 const todos: TodoTask[] = [
-    { id: 1, title: "Learn React", description: "", status: TodoStatus.Pending },
-    { id: 2, title: "Set up mock API", description: "", status: TodoStatus.InProgress },
-    { id: 3, title: "Build UI components", description: "", status: TodoStatus.Completed }
+    { id: 1, title: "Wake up", description: "The hardest part of the day", status: TodoStatus.Pending },
+    { id: 2, title: "Make coffee", description: "The best part of the day", status: TodoStatus.InProgress },
+    { id: 3, title: "Go work", description: "Just the part of the day", status: TodoStatus.Completed }
 ];
 
 export const getTodos = (): Promise<TodoTask[]> => {
@@ -19,6 +19,19 @@ export const addTodo = (title: string): Promise<TodoTask> => {
             todos.push(newTodo);
             console.log(todos);
             resolve(newTodo);
+        }, 200);
+    });
+};
+
+export const deleteTodo = (taskToDelete: TodoTask): Promise<TodoTask[]> => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const taskIndex = todos.indexOf(taskToDelete);
+            if (taskIndex > -1) {
+                console.log(taskIndex);
+                todos.splice(taskIndex, 1);
+                resolve(todos);
+            }
         }, 200);
     });
 };

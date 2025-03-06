@@ -4,4 +4,37 @@
   border: gray solid 1px;
   margin-top: 1rem;
   border-radius: 0.7rem;
+  display: flex;
+  padding: 0.5rem;
+  justify-content: space-between;
+}
+
+p{
+  color: gray;
+  margin: 0;
+  padding: 0;
+}
+
+h4{
+  margin: 0;
+  padding: 0;
+}
+
+.manipulateTaskButton{
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.todoText{
+  flex: 1;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.interactButtons{
+
 }

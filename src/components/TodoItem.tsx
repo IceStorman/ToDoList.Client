@@ -1,16 +1,32 @@
 import {TodoTask} from "../types/todoTypes";
+import {deleteTodo} from "../mock/api.ts";
 import "../styles/TodoItem.scss"
+import {Dispatch, SetStateAction} from "react";
 
-interface TodoItemProps {
-    task: TodoTask;
-    defaultOnClick: () => void;
-}
+export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: Dispatch<SetStateAction<TodoTask[]>>}) {
+    const onDelete = async (taskToDelete: TodoTask) => {
+        const updatedTodos = await deleteTodo(taskToDelete);
+        console.log(updatedTodos);
+        setTodos(() => [...updatedTodos]);
+    }
 
-export default function TodoItem({ task, defaultOnClick }: TodoItemProps) {
+    const onEditRequested = () => {};
+
     return (
-        <div className="todoItem" onClick={defaultOnClick} style={{ cursor: "pointer" }}>
-            <span style={{color: "gray"}}>{task.title}</span>
-            <span style={{color: "green", fontWeight: "bold", marginLeft: "8px"}}>{task.status}</span>
+        <div className="todoItem">
+            <div className="todoText">
+                <h4>{task.title}</h4>
+                <p>{task.description}</p>
+            </div>
+            <div className="interactButtons">
+                <button onClick={() => onDelete(task)} className="manipulateTaskButton">
+                    ❌
+                </button>
+                <button onClick={() => onEditRequested()} className="manipulateTaskButton">
+                    ✏️
+                </button>
+            </div>
+
         </div>
     );
 }
