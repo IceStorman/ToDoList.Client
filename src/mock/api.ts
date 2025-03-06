@@ -3,7 +3,7 @@ import { TodoTask, TodoStatus } from "../types/todoTypes";
 const todos: TodoTask[] = [
     { id: 1, title: "Learn React", description: "", status: TodoStatus.Pending },
     { id: 2, title: "Set up mock API", description: "", status: TodoStatus.InProgress },
-    { id: 3, title: "Build UI components", description: "", status: TodoStatus.Completed },
+    { id: 3, title: "Build UI components", description: "", status: TodoStatus.Completed }
 ];
 
 export const getTodos = (): Promise<TodoTask[]> => {
