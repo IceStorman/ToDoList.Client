@@ -7,6 +7,12 @@
   display: flex;
   padding: 0.5rem;
   justify-content: space-between;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.inactive {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 p{
@@ -39,3 +45,4 @@ select{
   height: 1.5rem;
   border-radius: 0.4rem;
 }
+

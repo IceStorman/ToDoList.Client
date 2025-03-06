@@ -47,3 +47,14 @@ export const updateTodoStatus = (id: number, newStatus: TodoStatus): Promise<Tod
         }, 200);
     });
 };
+
+export const updateTodoInfo= (updatedTodo: TodoTask) =>{
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            todos.map((task) =>
+                task.id === updatedTodo.id ? { ...task, ...updatedTodo } : task
+            );
+            resolve(updatedTodo);
+        }, 200)
+    })
+}
