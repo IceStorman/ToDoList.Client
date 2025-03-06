@@ -1,7 +1,7 @@
-import {TodoTask} from "../types/todoTypes";
-import {deleteTodo} from "../mock/api.ts";
+import {TodoStatus, TodoTask} from "../types/todoTypes";
+import {deleteTodo, updateTodoStatus} from "../mock/api.ts";
 import "../styles/TodoItem.scss"
-import {Dispatch, SetStateAction} from "react";
+import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 
 export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: Dispatch<SetStateAction<TodoTask[]>>}) {
     const onDelete = async (taskToDelete: TodoTask) => {
@@ -12,6 +12,15 @@ export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: 
 
     const onEditRequested = () => {};
 
+    const [status, setStatus] = useState<TodoStatus>(task.status);
+
+    const onTaskStatusUpdated = async (e: ChangeEvent<HTMLSelectElement>) => {
+        const newStatus = await updateTodoStatus(task.id, e.target.value as TodoStatus);
+        if (newStatus) {
+            setStatus(newStatus);
+        }
+    }
+
     return (
         <div className="todoItem">
             <div className="todoText">
@@ -19,6 +28,14 @@ export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: 
                 <p>{task.description}</p>
             </div>
             <div className="interactButtons">
+                <select
+                    value={status}
+                    onChange={(e) => onTaskStatusUpdated(e)}
+                >
+                    {Object.values(TodoStatus).map((status) => (
+                        <option key={status} value={status}>{status}</option>
+                    ))}
+                </select>
                 <button onClick={() => onDelete(task)} className="manipulateTaskButton">
                     ❌
                 </button>

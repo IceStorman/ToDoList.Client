@@ -36,12 +36,14 @@ export const deleteTodo = (taskToDelete: TodoTask): Promise<TodoTask[]> => {
     });
 };
 
-export const updateTodoStatus = (id: number, newStatus: TodoStatus): Promise<TodoTask | undefined> => {
+export const updateTodoStatus = (id: number, newStatus: TodoStatus): Promise<TodoStatus | undefined> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             const todo = todos.find((t) => t.id === id);
-            if (todo) todo.status = newStatus;
-            resolve(todo);
+            if (todo) {
+                todo.status = newStatus;
+            }
+            resolve(todo ? todo.status : undefined);
         }, 200);
     });
 };
