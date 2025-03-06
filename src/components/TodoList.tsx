@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import {getTodos, addTodo} from "../mock/api";
+import {getTodos} from "../mock/api";
 import {TodoTask} from "../types/todoTypes.ts";
 import TodoItem from "./TodoItem.tsx";
+import "../styles/TodoList.scss"
+import CreateTodoItemInterface from "./CreateTodoItemInterface.tsx";
 
 export default function TodoList() {
     const [todos, setTodos] = useState<TodoTask[]>([]);
-    const [newTodo, setNewTodo] = useState<string>("");
 
     useEffect(() => {
         getTodos().then(setTodos);
@@ -15,23 +16,13 @@ export default function TodoList() {
         console.log(id);
     };
 
-    const handleAddTodo = async () => {
-        if (!newTodo.trim()) return;
-        const todo = await addTodo(newTodo);
-        setTodos((prev) => [...prev, todo]);
-        setNewTodo("");
-    };
-
     return (
-        <div className="App">
-            <button onClick={handleAddTodo}>Add</button>
-            <input
-                type="text"
-                value={newTodo}
-                onChange={(e) => setNewTodo(e.target.value)}
-                placeholder="New task..."
+        <div className="list">
+            <h1 className="title">Todo list</h1>
+            <hr/>
+            <CreateTodoItemInterface
+                setTodos={setTodos}
             />
-
             <ul>
                 {todos.map((todoTask) => (
                     <TodoItem
