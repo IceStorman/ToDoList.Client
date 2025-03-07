@@ -1,11 +1,9 @@
 import {TodoStatus, TodoTask} from "../types/todoTypes";
-import EditTaskMenu from "./EditTaskMenu.tsx";
-import {deleteTodo, updateTodoInfo, updateTodoStatus} from "../mock/api.ts";
+import {deleteTodo, updateTodoStatus} from "../mock/api.ts";
 import "../styles/TodoItem.scss"
 import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 
 export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: Dispatch<SetStateAction<TodoTask[]>>}) {
-    const [isEditing, setIsEditing] = useState(false);
     const [status, setStatus] = useState<TodoStatus>(task.status);
 
     const onDelete = async (taskToDelete: TodoTask) => {
@@ -14,8 +12,7 @@ export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: 
         setTodos(() => [...updatedTodos]);
     }
 
-    const onEditRequested = () => {setIsEditing(true)};
-
+    const onEditRequested = () => {};
 
     const onTaskStatusUpdated = async (e: ChangeEvent<HTMLSelectElement>) => {
         const newStatus = await updateTodoStatus(task.id, e.target.value as TodoStatus);
@@ -25,18 +22,7 @@ export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: 
     }
 
     return (
-        <div className={isEditing ? "todoItem inactive" : "todoItem"}>
-            {isEditing && (
-                <EditTaskMenu
-                    task={task}
-                    onSave={(updatedTask: TodoTask) => {
-                        updateTodoInfo(updatedTask);
-                        setIsEditing(false);
-                    }}
-                    onCancel={() => setIsEditing(false)}
-                />
-            )}
-
+        <div className="todoItem">
             <div className="todoText">
                 <h4>{task.title}</h4>
                 <p>{task.description}</p>

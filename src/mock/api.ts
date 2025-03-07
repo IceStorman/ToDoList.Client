@@ -54,6 +54,7 @@ export const updateTodoInfo= (updatedTodo: TodoTask) =>{
             todos.map((task) =>
                 task.id === updatedTodo.id ? { ...task, ...updatedTodo } : task
             );
+            console.log(updatedTodo);
             resolve(updatedTodo);
         }, 200)
     })
