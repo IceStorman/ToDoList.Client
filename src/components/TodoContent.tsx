@@ -1,8 +1,9 @@
 import TodoItem from "./TodoItem.tsx";
 import {Dispatch, SetStateAction, useEffect} from "react";
 import {getTodos} from "../mock/api.ts";
-import {TodoTask} from "../types/todoTypes.ts";
+import {TodoStatus, TodoTask} from "../types/todoTypes.ts";
 import "../styles/TodoContent.scss"
+import EditTaskMenu from "./EditTaskMenu.tsx";
 
 export default function TodoContent({todos, setTodos}:
     {todos: TodoTask[], setTodos: Dispatch<SetStateAction<TodoTask[]>>}){
@@ -19,6 +20,9 @@ export default function TodoContent({todos, setTodos}:
                     setTodos={setTodos}
                 />
             ))}
+            <EditTaskMenu
+                taskToEdit={{ id: 0, title: "", description: "", status: TodoStatus.Pending }}
+            />
         </div>
     )
 }

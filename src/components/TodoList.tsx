@@ -1,9 +1,8 @@
 import { useState } from "react";
-import {TodoStatus, TodoTask} from "../types/todoTypes.ts";
+import {TodoTask} from "../types/todoTypes.ts";
 import "../styles/TodoList.scss"
 import CreateTodoItemInterface from "./CreateTodoItemInterface.tsx";
 import TodoContent from "./TodoContent.tsx";
-import EditTaskMenu from "./EditTaskMenu.tsx";
 
 export default function TodoList() {
     const [todos, setTodos] = useState<TodoTask[]>([]);
@@ -20,9 +19,6 @@ export default function TodoList() {
                 <TodoContent
                     todos={todos}
                     setTodos={setTodos}
-                />
-                <EditTaskMenu
-                    taskToEdit={{ id: 0, title: "", description: "", status: TodoStatus.Pending }}
                 />
             </div>
         </div>

@@ -43,7 +43,6 @@ export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: 
                     ✏️
                 </button>
             </div>
-
         </div>
     );
 }
