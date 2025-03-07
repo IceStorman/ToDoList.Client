@@ -18,11 +18,11 @@ export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemPr
         setTodos(() => [...updatedTodos]);
     }
 
-
     const onTaskStatusUpdated = async (e: ChangeEvent<HTMLSelectElement>) => {
         const newStatus = await updateTodoStatus(task.id, e.target.value as TodoStatus);
         if (newStatus) {
             setStatus(newStatus);
+            console.log("Task updated:" + task.status);
         }
     }
 
@@ -34,7 +34,7 @@ export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemPr
             </div>
             <div className="interactButtons">
                 <select
-                    value={status}
+                    value={task.status}
                     onChange={(e) => onTaskStatusUpdated(e)}
                 >
                     {Object.values(TodoStatus).map((status) => (
