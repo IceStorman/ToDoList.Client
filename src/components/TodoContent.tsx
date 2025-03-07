@@ -1,15 +1,23 @@
 import TodoItem from "./TodoItem.tsx";
-import {Dispatch, SetStateAction, useEffect} from "react";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {getTodos} from "../mock/api.ts";
-import {TodoStatus, TodoTask} from "../types/todoTypes.ts";
+import {TodoTask} from "../types/todoTypes.ts";
 import "../styles/TodoContent.scss"
 import EditTaskMenu from "./EditTaskMenu.tsx";
 
 export default function TodoContent({todos, setTodos}:
     {todos: TodoTask[], setTodos: Dispatch<SetStateAction<TodoTask[]>>}){
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [taskToEdit, setTaskToEdit] = useState<TodoTask | null>(null);
+
     useEffect(() => {
         getTodos().then(setTodos);
     }, [setTodos]);
+
+    const handleEditRequest = (task: TodoTask) => {
+        setTaskToEdit(task);
+        setIsEditOpen(true);
+    };
 
     return (
         <div className="listContent">
@@ -18,11 +26,18 @@ export default function TodoContent({todos, setTodos}:
                     key={todoTask.id}
                     task={todoTask}
                     setTodos={setTodos}
+                    onEditRequested={() => handleEditRequest(todoTask)}
                 />
             ))}
-            <EditTaskMenu
-                taskToEdit={{ id: 0, title: "", description: "", status: TodoStatus.Pending }}
-            />
+            {isEditOpen && taskToEdit && (
+                <EditTaskMenu
+                    taskToEdit={taskToEdit}
+                    setTaskToEdit={setTaskToEdit}
+                    setTodos={setTodos}
+                    isOpen={isEditOpen}
+                    setIsOpen={setIsEditOpen}
+                />
+            )}
         </div>
     )
 }

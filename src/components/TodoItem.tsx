@@ -3,7 +3,13 @@ import {deleteTodo, updateTodoStatus} from "../mock/api.ts";
 import "../styles/TodoItem.scss"
 import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
 
-export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: Dispatch<SetStateAction<TodoTask[]>>}) {
+interface TodoItemProps{
+    task: TodoTask,
+    setTodos: Dispatch<SetStateAction<TodoTask[]>>,
+    onEditRequested: () => void;
+}
+
+export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemProps) {
     const [status, setStatus] = useState<TodoStatus>(task.status);
 
     const onDelete = async (taskToDelete: TodoTask) => {
@@ -12,7 +18,6 @@ export default function TodoItem({ task, setTodos }: {task: TodoTask, setTodos: 
         setTodos(() => [...updatedTodos]);
     }
 
-    const onEditRequested = () => {};
 
     const onTaskStatusUpdated = async (e: ChangeEvent<HTMLSelectElement>) => {
         const newStatus = await updateTodoStatus(task.id, e.target.value as TodoStatus);

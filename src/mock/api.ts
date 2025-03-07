@@ -1,6 +1,6 @@
 import { TodoTask, TodoStatus } from "../types/todoTypes";
 
-const todos: TodoTask[] = [
+let todos: TodoTask[] = [
     { id: 1, title: "Wake up", description: "The hardest part of the day", status: TodoStatus.Pending },
     { id: 2, title: "Make coffee", description: "The best part of the day", status: TodoStatus.InProgress },
     { id: 3, title: "Go work", description: "Just the part of the day", status: TodoStatus.Completed }
@@ -48,14 +48,13 @@ export const updateTodoStatus = (id: number, newStatus: TodoStatus): Promise<Tod
     });
 };
 
-export const updateTodoInfo= (updatedTodo: TodoTask) =>{
+export const updateTodoInfo= (updatedTodo: TodoTask): Promise<TodoTask[]> =>{
     return new Promise((resolve) => {
         setTimeout(() => {
-            todos.map((task) =>
+            todos = todos.map((task) =>
                 task.id === updatedTodo.id ? { ...task, ...updatedTodo } : task
             );
-            console.log(updatedTodo);
-            resolve(updatedTodo);
+            resolve(todos);
         }, 200)
     })
 }
