@@ -24,8 +24,7 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
 
     async function onSave(editedTask: TodoTask) {
         const newTodos = await updateTodoInfo(editedTask);
-        console.log(newTodos);
-        setTodos(newTodos);
+        setTodos([...newTodos]);
         setIsOpen(false);
     }
 
