@@ -1,16 +1,7 @@
 import { TodoTask, TodoStatus } from "../types/todoTypes";
 
 let todos: TodoTask[] = [
-    { id: 1, title: "Wake up", description: "The hardest part of the day", status: TodoStatus.Pending },
-    { id: 2, title: "Make coffee", description: "The best part of the day", status: TodoStatus.InProgress },
-    { id: 3, title: "Go work", description: "Just the part of the day", status: TodoStatus.Completed }
 ];
-
-export const getTodos = (): Promise<TodoTask[]> => {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve([...todos]), 200);
-    });
-};
 
 export const addTodo = (title: string): Promise<TodoTask> => {
     return new Promise((resolve) => {

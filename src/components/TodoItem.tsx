@@ -1,4 +1,4 @@
-import {TodoStatus, TodoTask} from "../types/todoTypes";
+import {GetTodoStatusByInt, TodoStatus, TodoTask} from "../types/todoTypes";
 import {deleteTodo, updateTodoStatus} from "../mock/api.ts";
 import "../styles/TodoItem.scss"
 import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
@@ -22,7 +22,6 @@ export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemPr
         const newStatus = await updateTodoStatus(task.id, e.target.value as TodoStatus);
         if (newStatus) {
             setStatus(newStatus);
-            console.log("Task updated:" + task.status);
         }
     }
 
@@ -34,7 +33,7 @@ export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemPr
             </div>
             <div className="interactButtons">
                 <select
-                    value={task.status}
+                    value={GetTodoStatusByInt(Number(task.status))}
                     onChange={(e) => onTaskStatusUpdated(e)}
                 >
                     {Object.values(TodoStatus).map((status) => (

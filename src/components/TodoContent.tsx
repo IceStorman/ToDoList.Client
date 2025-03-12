@@ -1,9 +1,9 @@
 import TodoItem from "./TodoItem.tsx";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
-import {getTodos} from "../mock/api.ts";
 import {TodoTask} from "../types/todoTypes.ts";
 import "../styles/TodoContent.scss"
 import EditTaskMenu from "./EditTaskMenu.tsx";
+import axiosClient from "../api/axiosClient.ts";
 
 export default function TodoContent({todos, setTodos}:
     {todos: TodoTask[], setTodos: Dispatch<SetStateAction<TodoTask[]>>}){
@@ -11,8 +11,10 @@ export default function TodoContent({todos, setTodos}:
     const [taskToEdit, setTaskToEdit] = useState<TodoTask | null>(null);
 
     useEffect(() => {
-        getTodos().then(setTodos);
-    }, [setTodos]);
+        axiosClient.get<TodoTask[]>("/todos")
+            .then(response => setTodos(response.data))
+            .catch(error => console.error(error));
+    });
 
     const handleEditRequest = (task: TodoTask) => {
         setTaskToEdit(task);
