@@ -1,7 +1,7 @@
 import {Dispatch, SetStateAction, useState} from "react";
-import {addTodo} from "../mock/api.ts";
 import {TodoTask} from "../types/todoTypes.ts";
 import "../styles/CreateTodoItemInterface.scss"
+import axiosClient from "../api/axiosClient.ts";
 
 export default function CreateTodoItemInterface({setTodos}: {setTodos: Dispatch<SetStateAction<TodoTask[]>>}){
     const [newTodo, setNewTodo] = useState<string>("");
@@ -10,8 +10,9 @@ export default function CreateTodoItemInterface({setTodos}: {setTodos: Dispatch<
         if (!newTodo.trim())
             return;
 
-        const todo = await addTodo(newTodo);
-        setTodos((prev) => [...prev, todo]);
+        await axiosClient.post<TodoTask>("/todos/create", {title: newTodo})
+            .then(response => {setTodos((prev) => [...prev, response.data])});
+
         setNewTodo("");
     };
 

@@ -14,7 +14,7 @@ export default function TodoContent({todos, setTodos}:
         axiosClient.get<TodoTask[]>("/todos")
             .then(response => setTodos(response.data))
             .catch(error => console.error(error));
-    });
+    }, []);
 
     const handleEditRequest = (task: TodoTask) => {
         setTaskToEdit(task);

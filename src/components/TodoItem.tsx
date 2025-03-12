@@ -1,7 +1,7 @@
 import {GetTodoStatusByInt, TodoStatus, TodoTask} from "../types/todoTypes";
-import {deleteTodo, updateTodoStatus} from "../mock/api.ts";
 import "../styles/TodoItem.scss"
-import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
+import {ChangeEvent, Dispatch, SetStateAction} from "react";
+import axiosClient from "../api/axiosClient.ts";
 
 interface TodoItemProps{
     task: TodoTask,
@@ -10,18 +10,22 @@ interface TodoItemProps{
 }
 
 export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemProps) {
-    const [status, setStatus] = useState<TodoStatus>(task.status);
-
-    const onDelete = async (taskToDelete: TodoTask) => {
-        const updatedTodos = await deleteTodo(taskToDelete);
-        console.log(updatedTodos);
-        setTodos(() => [...updatedTodos]);
+    const onDelete = async () => {
+        await axiosClient.delete("/todos/delete/" + task.id);
+        axiosClient.get<TodoTask[]>("/todos").then((response) => setTodos(response.data))
     }
 
     const onTaskStatusUpdated = async (e: ChangeEvent<HTMLSelectElement>) => {
-        const newStatus = await updateTodoStatus(task.id, e.target.value as TodoStatus);
-        if (newStatus) {
-            setStatus(newStatus);
+        const todoStatuses = Object.values(TodoStatus).map((status, index) => ({
+            index: index,
+            status: status
+        }));
+        const newStatusProps = todoStatuses.find((item) => item.status == e.target.value as TodoStatus);
+        const newStatusIndex = newStatusProps?.index;
+
+        if (newStatusProps) {
+            await axiosClient.put("/todos/updateStatus/" + task.id, {title: "", description: "", status: newStatusIndex});
+            axiosClient.get<TodoTask[]>("/todos").then((response) => setTodos(response.data));
         }
     }
 
@@ -40,7 +44,7 @@ export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemPr
                         <option key={status} value={status}>{status}</option>
                     ))}
                 </select>
-                <button onClick={() => onDelete(task)} className="manipulateTaskButton">
+                <button onClick={() => onDelete()} className="manipulateTaskButton">
                     ❌
                 </button>
                 <button onClick={() => onEditRequested()} className="manipulateTaskButton">

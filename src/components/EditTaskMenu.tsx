@@ -1,8 +1,8 @@
 import React, {Dispatch, SetStateAction} from "react";
 import "../styles/EditTaskMenu.scss"
-import {TodoStatus, TodoTask} from "../types/todoTypes.ts";
+import {GetTodoStatusByInt, TodoStatus, TodoTask} from "../types/todoTypes.ts";
 import {Dialog, DialogTitle} from "@headlessui/react";
-import {updateTodoInfo} from "../mock/api.ts";
+import axiosClient from "../api/axiosClient.ts";
 
 interface EditTaskMenuProps {
     taskToEdit: TodoTask,
@@ -23,8 +23,17 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
     }
 
     async function onSave(editedTask: TodoTask) {
-        const newTodos = await updateTodoInfo(editedTask);
-        setTodos([...newTodos]);
+        const todoStatuses = Object.values(TodoStatus).map((status, index) => ({
+            index: index,
+            status: status
+        }));
+
+        await axiosClient.put("/todos/update/" + editedTask.id, {
+                title: editedTask.title,
+                description: editedTask.description,
+                status: todoStatuses.find((item) => item.status == editedTask.status)?.index
+        });
+        axiosClient.get<TodoTask[]>("/todos").then((response) => setTodos(response.data));
         setIsOpen(false);
     }
 
@@ -48,7 +57,7 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
                     />
                     <select
                         name="status"
-                        value={taskToEdit.status}
+                        value={GetTodoStatusByInt(Number(taskToEdit.status))}
                         onChange={(e) => handleTempChanges(e)}
                     >
                         {Object.values(TodoStatus).map((status) => (
