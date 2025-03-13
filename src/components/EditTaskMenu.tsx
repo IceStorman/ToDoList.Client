@@ -69,26 +69,31 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
             <Dialog open={isOpen} onClose={onCancel} className="editWindowOverlay">
                 <div className="editWindowContent">
                     <DialogTitle>Edit Task</DialogTitle>
-                    <input
-                        type="text"
-                        name="title"
-                        value={taskToEdit.title}
-                        placeholder={"Title..."}
-                        onChange={handleTempChanges}
-                    />
-                    {titleValidation && (
-                        <p className="validationMessage">*The title must contain from 1 to 64 symbols</p>
-                    )}
+                    <div>
+                        <input
+                            type="text"
+                            name="title"
+                            value={taskToEdit.title}
+                            placeholder={"Title..."}
+                            onChange={handleTempChanges}
+                        />
+                        {titleValidation && (
+                            <p className="validationMessage">*The title must contain from 1 to 64 symbols</p>
+                        )}
+                    </div>
 
-                    <textarea
-                        name="description"
-                        value={taskToEdit.description}
-                        placeholder={"Description..."}
-                        onChange={handleTempChanges}
-                    />
-                    {descriptionValidation && (
-                        <p className="validationMessage">*The description must contain maximum 256 symbols</p>
-                    )}
+                    <div>
+                        <textarea
+                            name="description"
+                            value={taskToEdit.description}
+                            placeholder={"Description..."}
+                            onChange={handleTempChanges}
+                        />
+                        {descriptionValidation && (
+                            <p className="validationMessage">*The description must contain maximum 256 symbols</p>
+                        )}
+                    </div>
+
                     <select
                         name="status"
                         value={GetTodoStatusByInt(Number(taskToEdit.status))}
