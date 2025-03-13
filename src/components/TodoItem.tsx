@@ -6,13 +6,13 @@ import axiosClient from "../api/axiosClient.ts";
 interface TodoItemProps{
     task: TodoTask,
     setTodos: Dispatch<SetStateAction<TodoTask[]>>,
-    onEditRequested: () => void;
+    onEditRequested: () => void
 }
 
 export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemProps) {
     const onDelete = async () => {
         await axiosClient.delete("/todos/delete/" + task.id);
-        axiosClient.get<TodoTask[]>("/todos").then((response) => setTodos(response.data))
+        axiosClient.get<TodoTask[]>("/todos").then((response) => setTodos(response.data));
     }
 
     const onTaskStatusUpdated = async (e: ChangeEvent<HTMLSelectElement>) => {
