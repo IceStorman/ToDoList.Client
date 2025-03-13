@@ -16,6 +16,18 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
     const [titleValidation, setTitleValidation] = useState<boolean>(false);
     const [descriptionValidation, setDescriptionValidation] = useState<boolean>(false);
 
+    const onTitleChanged = (e: React.ChangeEvent<HTMLInputElement
+        | HTMLTextAreaElement | HTMLSelectElement>) =>{
+        setTitleValidation(false);
+        handleTempChanges(e);
+    }
+
+    const onDescriptionChanged = (e: React.ChangeEvent<HTMLInputElement
+        | HTMLTextAreaElement | HTMLSelectElement>) => {
+        setDescriptionValidation(false);
+        handleTempChanges(e);
+    }
+
     const handleTempChanges = (e: React.ChangeEvent<HTMLInputElement
         | HTMLTextAreaElement | HTMLSelectElement>) => {
         setTaskToEdit({ ...taskToEdit, [e.target.name]: e.target.value });
@@ -75,7 +87,7 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
                             name="title"
                             value={taskToEdit.title}
                             placeholder={"Title..."}
-                            onChange={handleTempChanges}
+                            onChange={onTitleChanged}
                         />
                         {titleValidation && (
                             <p className="validationMessage">*The title must contain from 1 to 64 symbols</p>
@@ -87,7 +99,7 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
                             name="description"
                             value={taskToEdit.description}
                             placeholder={"Description..."}
-                            onChange={handleTempChanges}
+                            onChange={onDescriptionChanged}
                         />
                         {descriptionValidation && (
                             <p className="validationMessage">*The description must contain maximum 256 symbols</p>
