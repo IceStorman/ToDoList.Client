@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useState} from "react";
 import {TodoTask} from "../types/todoTypes.ts";
 import "../styles/CreateTodoItemInterface.scss"
 import axiosClient from "../api/axiosClient.ts";
@@ -6,6 +6,11 @@ import axiosClient from "../api/axiosClient.ts";
 export default function CreateTodoItemInterface({setTodos}: {setTodos: Dispatch<SetStateAction<TodoTask[]>>}){
     const [newTodo, setNewTodo] = useState<string>("");
     const [showValidation, setShowValidation] = useState(false);
+
+    const handleTempTextChanges = (e: React.ChangeEvent<HTMLInputElement>) =>{
+        setNewTodo(e.target.value);
+        setShowValidation(false);
+    }
 
     const handleAddTodo = async () => {
         if (!newTodo.trim() || newTodo.length > 64){
@@ -25,7 +30,7 @@ export default function CreateTodoItemInterface({setTodos}: {setTodos: Dispatch<
             <input className="newTodoItemTextField"
                 type="text"
                 value={newTodo}
-                onChange={(e) => setNewTodo(e.target.value)}
+                onChange={(e) => handleTempTextChanges(e)}
                 placeholder="New task..."
             />
             <button className="createTodoItemButton" onClick={handleAddTodo}>+ Add New Task</button>
