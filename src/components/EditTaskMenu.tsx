@@ -73,7 +73,7 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
     }
 
     function isDescriptionValid(task: TodoTask){
-        return task.description.length <= 256;
+        return task.description?.trim() && task.description?.length <= 256;
     }
 
     return(
@@ -102,7 +102,7 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
                             onChange={onDescriptionChanged}
                         />
                         {descriptionValidation && (
-                            <p className="validationMessage">*The description must contain maximum 256 symbols</p>
+                            <p className="validationMessage">*The description must contain from 1 to 256 symbols</p>
                         )}
                     </div>
 
