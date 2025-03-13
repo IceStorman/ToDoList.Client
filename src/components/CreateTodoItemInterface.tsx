@@ -5,15 +5,19 @@ import axiosClient from "../api/axiosClient.ts";
 
 export default function CreateTodoItemInterface({setTodos}: {setTodos: Dispatch<SetStateAction<TodoTask[]>>}){
     const [newTodo, setNewTodo] = useState<string>("");
+    const [showValidation, setShowValidation] = useState(false);
 
     const handleAddTodo = async () => {
-        if (!newTodo.trim())
+        if (!newTodo.trim() || newTodo.length > 64){
+            setShowValidation(true);
             return;
+        }
 
-        await axiosClient.post<TodoTask>("/todos/create", {title: newTodo})
+        await axiosClient.post<TodoTask>("/todos/create", {title: newTodo.trimStart()})
             .then(response => {setTodos((prev) => [...prev, response.data])});
 
         setNewTodo("");
+        setShowValidation(false);
     };
 
     return(
@@ -25,6 +29,10 @@ export default function CreateTodoItemInterface({setTodos}: {setTodos: Dispatch<
                 placeholder="New task..."
             />
             <button className="createTodoItemButton" onClick={handleAddTodo}>+ Add New Task</button>
+            {showValidation && (
+                <p className="validationMessage">*The title must contain from 1 to 64 symbols</p>
+            )
+            }
         </div>
     );
 }

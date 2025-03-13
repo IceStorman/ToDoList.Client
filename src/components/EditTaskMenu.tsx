@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from "react";
+import React, {Dispatch, SetStateAction, useState} from "react";
 import "../styles/EditTaskMenu.scss"
 import {GetTodoStatusByInt, TodoStatus, TodoTask} from "../types/todoTypes.ts";
 import {Dialog, DialogTitle} from "@headlessui/react";
@@ -13,6 +13,9 @@ interface EditTaskMenuProps {
 }
 
 export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpen, setIsOpen}: EditTaskMenuProps) {
+    const [titleValidation, setTitleValidation] = useState<boolean>(false);
+    const [descriptionValidation, setDescriptionValidation] = useState<boolean>(false);
+
     const handleTempChanges = (e: React.ChangeEvent<HTMLInputElement
         | HTMLTextAreaElement | HTMLSelectElement>) => {
         setTaskToEdit({ ...taskToEdit, [e.target.name]: e.target.value });
@@ -28,13 +31,37 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
             status: status
         }));
 
+        setTitleValidation(false);
+        setDescriptionValidation(false);
+        let canSave = true;
+
+        if(!isTitleValid(editedTask)) {
+            setTitleValidation(true);
+            canSave = false;
+        }
+        if(!isDescriptionValid(editedTask)) {
+            setDescriptionValidation(true);
+            canSave = false;
+        }
+        if(!canSave){
+            return;
+        }
+
         await axiosClient.put("/todos/update/" + editedTask.id, {
-                title: editedTask.title,
-                description: editedTask.description,
+                title: editedTask.title.trimStart(),
+                description: editedTask.description.trimStart(),
                 status: todoStatuses.find((item) => item.status == editedTask.status)?.index
         });
         axiosClient.get<TodoTask[]>("/todos").then((response) => setTodos(response.data));
         setIsOpen(false);
+    }
+
+    function isTitleValid(task: TodoTask){
+        return task.title.trim() && task.title.length <= 64;
+    }
+
+    function isDescriptionValid(task: TodoTask){
+        return task.description.length <= 256;
     }
 
     return(
@@ -49,12 +76,19 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
                         placeholder={"Title..."}
                         onChange={handleTempChanges}
                     />
+                    {titleValidation && (
+                        <p className="validationMessage">*The title must contain from 1 to 64 symbols</p>
+                    )}
+
                     <textarea
                         name="description"
                         value={taskToEdit.description}
                         placeholder={"Description..."}
                         onChange={handleTempChanges}
                     />
+                    {descriptionValidation && (
+                        <p className="validationMessage">*The description must contain maximum 256 symbols</p>
+                    )}
                     <select
                         name="status"
                         value={GetTodoStatusByInt(Number(taskToEdit.status))}
