@@ -1,5 +1,5 @@
 .todoItem{
-  width: 45rem;
+  width: 50rem;
   height: 100%;
   border: gray solid 1px;
   margin-top: 1rem;
@@ -8,6 +8,24 @@
   padding: 0.5rem;
   justify-content: space-between;
   transition: opacity 0.2s ease-in-out;
+}
+
+.interactButtons{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+
+  > :nth-last-child(2) {
+    margin-right: -1rem;
+  }
+}
+
+.datePicker{
+  width: 7rem;
+  height: 100%;
+  font-size: 1rem ;
+  border-radius: 0.7rem;
 }
 
 .inactive {
