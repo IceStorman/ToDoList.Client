@@ -1,6 +1,6 @@
 import {GetTodoStatusByInt, TodoStatus, TodoTask} from "../types/todoTypes";
 import "../styles/TodoItem.scss"
-import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
+import {ChangeEvent, Dispatch, SetStateAction} from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axiosClient from "../api/axiosClient.ts";
@@ -12,8 +12,6 @@ interface TodoItemProps{
 }
 
 export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemProps) {
-    const [startDate, setStartDate] = useState(new Date());
-
     const onDelete = async () => {
         await axiosClient.delete("/todos/delete/" + task.id);
         axiosClient.get<TodoTask[]>("/todos").then((response) => setTodos(response.data));
@@ -33,6 +31,11 @@ export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemPr
         }
     }
 
+    const onTaskDueDateUpdated = async (newDate: Date) => {
+        await axiosClient.put("/todos/updateDueDate/" + task.id, {title: "", description: "", status: 0, dueDate: newDate});
+        axiosClient.get<TodoTask[]>("/todos").then((response) => setTodos(response.data));
+    }
+
     return (
         <div className="todoItem">
             <div className="todoText">
@@ -42,8 +45,9 @@ export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemPr
             <div className="interactButtons">
                 <div>
                     <DatePicker className="datePicker"
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date as Date)}
+                                selected={task.dueDate}
+                                onChange={(date) => onTaskDueDateUpdated(date as Date)}
+                                minDate={new Date()}
                     />
                 </div>
                 <select

@@ -9,6 +9,7 @@ export interface TodoTask {
     title: string;
     description: string;
     status: TodoStatus;
+    dueDate: Date;
 }
 
 export function GetTodoStatusByInt(value: number){

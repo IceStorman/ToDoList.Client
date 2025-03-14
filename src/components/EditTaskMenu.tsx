@@ -3,6 +3,7 @@ import "../styles/EditTaskMenu.scss"
 import {GetTodoStatusByInt, TodoStatus, TodoTask} from "../types/todoTypes.ts";
 import {Dialog, DialogTitle} from "@headlessui/react";
 import axiosClient from "../api/axiosClient.ts";
+import DatePicker from "react-datepicker";
 
 interface EditTaskMenuProps {
     taskToEdit: TodoTask,
@@ -15,6 +16,7 @@ interface EditTaskMenuProps {
 export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpen, setIsOpen}: EditTaskMenuProps) {
     const [titleValidation, setTitleValidation] = useState<boolean>(false);
     const [descriptionValidation, setDescriptionValidation] = useState<boolean>(false);
+    const [startDate, setStartDate] = useState(taskToEdit.dueDate);
 
     const onTitleChanged = (e: React.ChangeEvent<HTMLInputElement
         | HTMLTextAreaElement | HTMLSelectElement>) =>{
@@ -62,7 +64,8 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
         await axiosClient.put("/todos/update/" + editedTask.id, {
                 title: editedTask.title.trimStart(),
                 description: editedTask.description.trimStart(),
-                status: todoStatuses.find((item) => item.status == editedTask.status)?.index
+                status: todoStatuses.find((item) => item.status == editedTask.status)?.index,
+                dueDate: startDate
         });
         axiosClient.get<TodoTask[]>("/todos").then((response) => setTodos(response.data));
         setIsOpen(false);
@@ -105,7 +108,13 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
                             <p className="validationMessage">*The description must contain from 1 to 256 symbols</p>
                         )}
                     </div>
-
+                    <div>
+                        <DatePicker className="datePickerEditMenu"
+                                    selected={startDate}
+                                    onChange={(date) => setStartDate(date as Date)}
+                                    minDate={new Date()}
+                        />
+                    </div>
                     <select
                         name="status"
                         value={GetTodoStatusByInt(Number(taskToEdit.status))}
