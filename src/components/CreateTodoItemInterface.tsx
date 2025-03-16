@@ -1,6 +1,6 @@
 import React, {Dispatch, SetStateAction, useState} from "react";
 import {TodoTask} from "../types/todoTypes.ts";
-import "../styles/CreateTodoItemInterface.scss"
+import "../styles/CreateTodoItemInterface.scss";
 import axiosClient from "../api/axiosClient.ts";
 
 export default function CreateTodoItemInterface({setTodos}: {setTodos: Dispatch<SetStateAction<TodoTask[]>>}){

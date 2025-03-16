@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useState} from "react";
-import "../styles/EditTaskMenu.scss"
+import "../styles/EditTaskMenu.scss";
 import {GetTodoStatusByInt, TodoStatus, TodoTask} from "../types/todoTypes.ts";
 import {Dialog, DialogTitle} from "@headlessui/react";
 import axiosClient from "../api/axiosClient.ts";

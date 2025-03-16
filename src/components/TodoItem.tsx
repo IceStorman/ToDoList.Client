@@ -1,5 +1,5 @@
 import {GetTodoStatusByInt, TodoStatus, TodoTask} from "../types/todoTypes";
-import "../styles/TodoItem.scss"
+import "../styles/TodoItem.scss";
 import {ChangeEvent, Dispatch, SetStateAction} from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
