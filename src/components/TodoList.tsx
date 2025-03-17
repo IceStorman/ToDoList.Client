@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {TodoTask} from "../types/todoTypes.ts";
-import "../styles/TodoList.scss";
+import "../styles/TodoList.scss"
 import CreateTodoItemInterface from "./CreateTodoItemInterface.tsx";
 import TodoContent from "./TodoContent.tsx";
 

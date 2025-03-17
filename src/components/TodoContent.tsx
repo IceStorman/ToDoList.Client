@@ -1,7 +1,7 @@
 import TodoItem from "./TodoItem.tsx";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {TodoTask} from "../types/todoTypes.ts";
-import "../styles/TodoContent.scss";
+import "../styles/TodoContent.scss"
 import EditTaskMenu from "./EditTaskMenu.tsx";
 import axiosClient from "../api/axiosClient.ts";
 
