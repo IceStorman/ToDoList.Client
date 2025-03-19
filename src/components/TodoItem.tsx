@@ -46,7 +46,7 @@ export default function TodoItem({ task, setTodos, onEditRequested }: TodoItemPr
                 <div>
                     <DatePicker className="datePicker"
                                 selected={task.dueDate}
-                                onChange={(date) => onTaskDueDateUpdated(date as Date)}
+                                onChange={(date: Date | null) => onTaskDueDateUpdated(date as Date)}
                                 minDate={new Date()}
                     />
                 </div>

@@ -4,5 +4,5 @@ import App from "../App"
 
 test("Renders the main page", () => {
     const { getByText } = render(<App />);
-    expect(getByText("Mocked DatePicker")).toBeInTheDocument();
+    expect(getByText("Todo list")).toBeInTheDocument();
 });

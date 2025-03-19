@@ -111,7 +111,7 @@ export default function EditTaskMenu({taskToEdit, setTaskToEdit, setTodos, isOpe
                     <div>
                         <DatePicker className="datePickerEditMenu"
                                     selected={startDate}
-                                    onChange={(date) => setStartDate(date as Date)}
+                                    onChange={(date: Date | null) => setStartDate(date as Date)}
                                     minDate={new Date()}
                         />
                     </div>
